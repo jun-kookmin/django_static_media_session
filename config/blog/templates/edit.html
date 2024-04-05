@@ -1,8 +1,27 @@
-<h1>edit 페이지</h1>
-
-<form action="{% url 'update' edit_blog.id %}" method="POST">
+{% extends "base.html" %}
+{% load static %} 
+{% block title %}
+수정하기
+{% endblock title%}
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'blog/css/write.css'%}">
+{% endblock extrahead %}
+{% block content %}
+<section class="write_section">
+  <h1>수정하기</h1>
+  <form
+    action="{% url 'update' edit_blog.id %}"
+    method="POST"
+    enctype="multipart/form-data"
+    class="write_form"
+  >
     {% csrf_token %}
-    <input type="text" name="title" value="{{ edit_blog.title }}"/>
-    <textarea name="content" id="" cols="30">{{ edit_blog.content }}</textarea>
+    제목
+    <input type="text" name="title" value="{{ edit_blog.title }}" />
+    본문
+    <textarea name="content" cols="30" rows="10">{{ edit_blog.content }}</textarea>
+    사진 <input type="file" name="image" />
     <input type="submit" value="수정하기" />
-</form>
+  </form>
+</section>
+{% endblock %}

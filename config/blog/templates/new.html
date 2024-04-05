@@ -1,9 +1,23 @@
-<h1>새 글 작성하기</h1>
-<form action="{%url 'create'%}" method="POST">
+{% extends "base.html" %}
+{% load static %} 
+{% block title %}
+작성하기
+{% endblock title%}
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'blog/css/write.css'%}">
+{% endblock extrahead %}
+{% block content %}
+<section class="write_section">
+  <h1>작성하기</h1>
+  <form action="{%url 'create'%}" method="POST" enctype="multipart/form-data" class="write_form">
     {% csrf_token %}
-    제목 : <input type="text" name="title" />
-    본문 : <textarea name="content" id="" cols="30" rows="10"></textarea>
-    <input type="submit" value="작성하기"/>
-</form>
-
-
+    제목
+    <input type="text" name="title" />
+    본문
+    <textarea name="content" id="" cols="30" rows="10"></textarea>
+    사진
+    <input type="file" name="image" />
+    <input type="submit" value="작성하기" />
+  </form>
+</section>
+{% endblock %}
