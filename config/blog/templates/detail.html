@@ -14,7 +14,7 @@
     <p>{{blog.content}}</p>
     <p>{{blog.created_at}}</p>
     
-    {% if blog.image %}
+    {% if blog.image != "False" %}
     <img src="{{blog.image.url}}" alt="image" width="200" />
     {% endif %}
 </section>

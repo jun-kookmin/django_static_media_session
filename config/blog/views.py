@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Blog
 from django.core.paginator import Paginator
+import os
+from django.conf import settings
 
 # READ
 def home(request):
@@ -41,6 +43,12 @@ def update(request, blog_id):
     old_blog = get_object_or_404(Blog, pk=blog_id)
     old_blog.title = request.POST.get('title')
     old_blog.content = request.POST.get('content')
+    image_change_check = request.FILES.get('change_image', False)
+    image_delete_check = request.POST.get('file_delete', False)
+    if image_change_check or image_delete_check:
+        if old_blog.image!="False":
+            os.remove(os.path.join(settings.MEDIA_ROOT, old_blog.image.path))
+        old_blog.image = image_change_check
     old_blog.save()
     return redirect('detail', old_blog.id)
     # return render(request, 'detail.html', {'blog': old_blog})
