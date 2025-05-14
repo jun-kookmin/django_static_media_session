@@ -6,7 +6,7 @@ from django.conf import settings
 
 # READ
 def home(request):
-    blogs = Blog.objects.all()
+    blogs = Blog.objects.all().order_by('-id')
     paginator = Paginator(blogs, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -19,43 +19,14 @@ def detail(request, blog_id):
 
 
 # CREATE
-def new(request):
-    return render(request, 'new.html')
-
-
 def create(request):
-    new_blog = Blog()
-    new_blog.title = request.POST['title']
-    new_blog.content = request.POST['content']
-    new_blog.image = request.FILES.get('image')
-    new_blog.save()
-    return redirect('detail', new_blog.id)
+    if request.method == 'POST':
+        new_blog = Blog()
+        new_blog.title = request.POST['title']
+        new_blog.content = request.POST['content']
+        new_blog.image = request.FILES.get('image')
+        new_blog.save()
+        return redirect('detail', new_blog.id)
+    return render(request, 'new.html')
     # return render(request, 'detail.html', {'blog': new_blog})
 
-
-# UPDATE
-def edit(request, blog_id):
-    edit_blog = get_object_or_404(Blog, pk=blog_id)
-    return render(request, 'edit.html', {'edit_blog':edit_blog})
-
-
-def update(request, blog_id):
-    old_blog = get_object_or_404(Blog, pk=blog_id)
-    old_blog.title = request.POST.get('title')
-    old_blog.content = request.POST.get('content')
-    image_change_check = request.FILES.get('change_image', False)
-    image_delete_check = request.POST.get('file_delete', False)
-    if image_change_check or image_delete_check:
-        if old_blog.image!="False":
-            os.remove(os.path.join(settings.MEDIA_ROOT, old_blog.image.path))
-        old_blog.image = image_change_check
-    old_blog.save()
-    return redirect('detail', old_blog.id)
-    # return render(request, 'detail.html', {'blog': old_blog})
-
-
-# DELETE
-def delete(request, blog_id):
-    delete_blog = get_object_or_404(Blog, pk=blog_id)
-    delete_blog.delete()
-    return redirect('home')

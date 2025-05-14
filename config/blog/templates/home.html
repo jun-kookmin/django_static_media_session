@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load static %} 
 {% block title %}
-지민 블로그 home
+블로그 home
 {% endblock title %}
 {% block extrahead %}
 <link rel="stylesheet" href="{% static 'blog/css/home.css'%}" />
 {% endblock extrahead %}
 {% block content %}
 <section class="btn_block">
-  <span class="plus_btn"><a href="{%url 'new'%}">작성하기</a></span>
+  <span class="plus_btn"><a href="{%url 'create'%}">작성하기</a></span>
 </section>
 <section class="posting_list">
   {% for blog in page_obj %}

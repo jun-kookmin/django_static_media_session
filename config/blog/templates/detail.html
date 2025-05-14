@@ -1,28 +1,20 @@
-{% extends "base.html" %}
-{% load static %} 
-{% block title %}
-{{blog.title|truncatewords:7}}
-{% endblock title%}
-{% block extrahead %}
-<link rel="stylesheet" href="{% static 'blog/css/detail.css'%}">
-{% endblock extrahead %}
-{% block content %}
-<h1 style="text-align: center;">{{blog.title}}</h1>
+{% extends "base.html" %} {% load static %} {% block title %}
+{{blog.title|truncatewords:7}} {% endblock title%} {% block extrahead %}
+<link rel="stylesheet" href="{% static 'blog/css/detail.css'%}" />
+{% endblock extrahead %} {% block content %}
+<h1 style="text-align: center">{{blog.title}}</h1>
 <br />
 <hr />
 <section class="main_section">
-    <p>{{blog.content}}</p>
-    <p>{{blog.created_at}}</p>
-    
-    {% if blog.image != "False" %}
-    <img src="{{blog.image.url}}" alt="image" width="200" />
-    {% endif %}
+  <pre>{{blog.content }}</pre>
+  <p>{{blog.created_at}}</p>
+  {% if blog.image %}
+  <img src="{{ blog.image.url }}" alt="image" width="200" />
+  {% endif %}
 </section>
 
 <hr />
 <section class="option_list">
-    <a href="{% url 'home' %}"> 메인화면 </a>
-    <a href="{% url 'edit' blog.id %}"> 수정하기 </a>
-    <a href="{% url 'delete' blog.id %}" style="color: red;"> 삭제하기 </a>
+  <a href="{% url 'home' %}"> 메인화면 </a>
 </section>
 {% endblock %}
