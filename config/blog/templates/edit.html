@@ -1,10 +1,8 @@
 {% extends "base.html" %}
-{% load static %} 
 {% block title %}
 수정하기
 {% endblock title%}
-{% block extrahead %}
-<link rel="stylesheet" href="{% static 'blog/css/write.css'%}">
+{%block extrahead %}
 {% endblock extrahead %}
 {% block content %}
 <section class="write_section">
@@ -15,14 +13,14 @@
     enctype="multipart/form-data"
     class="write_form"
   >
-    {% csrf_token %}
-    제목
+    {% csrf_token %} 제목
     <input type="text" name="title" value="{{ edit_blog.title }}" />
     본문
     <textarea name="content" cols="30" rows="10">{{ edit_blog.content }}</textarea>
-    사진 <input type="file" name="change_image" />
-    {% if edit_blog.image != "False" %}
-    사진 삭제하기 <input type="checkbox" name="file_delete">
+    사진
+    <input type="file" name="change_image" />
+    {% if edit_blog.image !="False" %}
+    사진 삭제하기 <input type="checkbox" name="file_delete" />
     {% endif %}
     <input type="submit" value="수정하기" />
   </form>

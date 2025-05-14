@@ -28,5 +28,4 @@ def create(request):
         new_blog.save()
         return redirect('detail', new_blog.id)
     return render(request, 'new.html')
-    # return render(request, 'detail.html', {'blog': new_blog})
 
