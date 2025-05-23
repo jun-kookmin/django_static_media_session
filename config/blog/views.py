@@ -29,3 +29,34 @@ def create(request):
         return redirect('detail', new_blog.id)
     return render(request, 'new.html')
 
+def delete(request, blog_id):
+    blog = get_object_or_404(Blog, pk=blog_id)
+    if blog.image:
+        image_path = blog.image.path
+        if os.path.exists(image_path):
+            os.remove(image_path)
+    blog.delete()
+    return redirect('home')
+
+def update(request, blog_id):
+    blog = get_object_or_404(Blog, pk=blog_id)
+
+    if request.method == 'POST':
+        blog.title = request.POST['title']
+        blog.content = request.POST['content']
+
+        if request.POST.get('file_delete') == 'on':
+            if blog.image and os.path.exists(blog.image.path):
+                os.remove(blog.image.path)
+            blog.image = None
+            
+        new_image = request.FILES.get('change_image')
+        if new_image:
+            if blog.image and os.path.exists(blog.image.path):
+                os.remove(blog.image.path)
+            blog.image = new_image
+
+        blog.save()
+        return redirect('detail', blog.id)
+
+    return render(request, 'edit.html', {'edit_blog': blog})
